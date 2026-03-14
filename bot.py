@@ -18,6 +18,10 @@ DISCORD_TOKEN = os.getenv("DISCORD_TOKEN")
 PREFIX = "?"
 CARDS_FILE = "cards.json"
 
+# Default profit settings
+DEFAULT_EBAY_FEE_PERCENT = 12.8
+DEFAULT_POSTAGE_COST = 2.70
+
 intents = discord.Intents.default()
 intents.message_content = True
 
@@ -54,6 +58,16 @@ def format_price(value) -> str:
         return str(value)
 
 
+def parse_money(value):
+    if value is None or value == "":
+        return None
+
+    try:
+        return float(str(value).replace("£", "").replace(",", "").strip())
+    except ValueError:
+        return None
+
+
 # =========================
 # EVENTS
 # =========================
@@ -76,8 +90,6 @@ async def addcard(ctx: commands.Context, *, args: str):
     """
     Usage:
     ?addcard code | Card Name | Image URL | eBay Sold Link | Buy Price | Notes
-
-    Buy Price and Notes are optional.
     """
     parts = [part.strip() for part in args.split("|")]
 
@@ -390,6 +402,119 @@ async def listcards(ctx: commands.Context):
     await ctx.reply(embed=embed, mention_author=False)
 
 
+@bot.command(name="findcard")
+async def findcard(ctx: commands.Context, *, keyword: str):
+    """
+    Usage:
+    ?findcard charizard
+    """
+    keyword = keyword.strip().lower()
+    cards = load_cards()
+
+    matches = []
+    for code, card in sorted(cards.items()):
+        name = card.get("name", "").lower()
+        notes = card.get("notes", "").lower()
+
+        if keyword in code or keyword in name or keyword in notes:
+            paid = format_price(card.get("buy_price", ""))
+            matches.append(f"`{code}` — {card.get('name', 'Unknown card')} — Paid: {paid}")
+
+    if not matches:
+        await ctx.reply(
+            f"No cards found matching: **{keyword}**",
+            mention_author=False
+        )
+        return
+
+    text = "\n".join(matches)
+
+    if len(text) > 1900:
+        text = text[:1900] + "\n..."
+
+    embed = discord.Embed(
+        title=f"Search results for: {keyword}",
+        description=text
+    )
+
+    await ctx.reply(embed=embed, mention_author=False)
+
+
+@bot.command(name="profit")
+async def profit(ctx: commands.Context, *, args: str):
+    """
+    Usage:
+    ?profit charizard199 | 24.99
+    ?profit charizard199 | 24.99 | 12.8 | 2.70
+    """
+    parts = [part.strip() for part in args.split("|")]
+
+    if len(parts) < 2 or len(parts) > 4:
+        await ctx.reply(
+            "Use this format:\n"
+            "`?profit code | saleprice`\n"
+            "or\n"
+            "`?profit code | saleprice | feepercent | postage`",
+            mention_author=False
+        )
+        return
+
+    code = parts[0].lower()
+    sale_price = parse_money(parts[1])
+    fee_percent = parse_money(parts[2]) if len(parts) >= 3 else DEFAULT_EBAY_FEE_PERCENT
+    postage_cost = parse_money(parts[3]) if len(parts) >= 4 else DEFAULT_POSTAGE_COST
+
+    if sale_price is None:
+        await ctx.reply("Sale price is invalid.", mention_author=False)
+        return
+
+    if fee_percent is None:
+        await ctx.reply("Fee percent is invalid.", mention_author=False)
+        return
+
+    if postage_cost is None:
+        await ctx.reply("Postage cost is invalid.", mention_author=False)
+        return
+
+    cards = load_cards()
+
+    if code not in cards:
+        await ctx.reply(
+            f"No saved card found for code: **{code}**",
+            mention_author=False
+        )
+        return
+
+    card = cards[code]
+    buy_price = parse_money(card.get("buy_price", ""))
+
+    if buy_price is None:
+        await ctx.reply(
+            f"Buy price is not set for **{card.get('name', code)}**. Use `?setprice {code} | price` first.",
+            mention_author=False
+        )
+        return
+
+    ebay_fee_amount = sale_price * (fee_percent / 100)
+    net_profit = sale_price - ebay_fee_amount - postage_cost - buy_price
+
+    embed = discord.Embed(
+        title=f"Profit check • {card.get('name', code)}"
+    )
+    embed.add_field(name="Code", value=code, inline=True)
+    embed.add_field(name="Bought for", value=f"£{buy_price:.2f}", inline=True)
+    embed.add_field(name="Sale price", value=f"£{sale_price:.2f}", inline=True)
+    embed.add_field(name="eBay fee %", value=f"{fee_percent:.2f}%", inline=True)
+    embed.add_field(name="eBay fee", value=f"£{ebay_fee_amount:.2f}", inline=True)
+    embed.add_field(name="Postage", value=f"£{postage_cost:.2f}", inline=True)
+    embed.add_field(name="Estimated profit", value=f"£{net_profit:.2f}", inline=False)
+
+    if card.get("image_url"):
+        embed.set_image(url=card["image_url"])
+
+    await ctx.reply(embed=embed, mention_author=False)
+
+
 @bot.command(name="helpcomp")
 async def helpcomp(ctx: commands.Context):
     embed = discord.Embed(
@@ -403,6 +528,9 @@ async def helpcomp(ctx: commands.Context):
             "`?renamecard oldcode | newcode`\n"
             "`?delcard code`\n"
             "`?listcards`\n"
+            "`?findcard keyword`\n"
+            "`?profit code | saleprice`\n"
+            "`?profit code | saleprice | feepercent | postage`\n"
             "`?ping`"
         )
     )
@@ -413,6 +541,6 @@ async def helpcomp(ctx: commands.Context):
 # START BOT
 # =========================
 if not DISCORD_TOKEN:
-    raise ValueError("No DISCORD_TOKEN found in .env file. Put it in your .env like: DISCORD_TOKEN=your_token_here")
+    raise ValueError("No DISCORD_TOKEN found in environment variables.")
 
 bot.run(DISCORD_TOKEN)
