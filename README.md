@@ -223,21 +223,21 @@ comp-bot/
 
 Future Ideas
 
-Possible upgrades:
+* Possible upgrades:
 
-Collection value command
+* Collection value command
 
-ROI percentage command
+* ROI percentage command
 
-Export to CSV
+* Export to CSV
 
-Separate sold / raw / graded tracking
+* Separate sold / raw / graded tracking
 
-Category tags
+* Category tags
 
-Admin-only command restrictions
+* Admin-only command restrictions
 
-Sales history log
+* Sales history log
 
 
 Author:
