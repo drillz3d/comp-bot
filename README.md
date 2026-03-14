@@ -1,240 +1,222 @@
-Pokémon Card Comp Bot
+# Pokémon Card Comp Bot
 
-A simple Discord bot for tracking Pokémon card purchases and checking eBay sold listings quickly.
+A Discord bot for saving Pokémon cards, opening eBay sold comps quickly, tracking buy prices, adding notes, searching your saved cards, and estimating profit.
 
-Designed for card sellers and collectors who want a fast way to store cards, check comps, and estimate profit directly inside Discord.
+## Features
 
-The bot stores cards in a local JSON database and provides commands to:
+- Save cards with image, eBay sold link, buy price, and notes
+- Open live eBay sold listings from Discord
+- Update prices and notes any time
+- Rename saved card codes
+- Search your saved cards by keyword
+- Estimate profit after fees and postage
+- Works great for personal flipping / collection tracking
 
-Save cards
+---
 
-View eBay sold listings
-
-Track buy prices
-
-Add notes
-
-Search your collection
-
-Estimate profit after eBay fees and postage
-
-Features
-Card Tracking
-
-Store cards with:
-
-Card name
-
-Image
-
-eBay sold listings search link
-
-Buy price
-
-Notes
-
-eBay Sold Listings
-
-Each card stores a live eBay sold search link so you can instantly check current market value.
-
-Profit Estimation
-
-Calculate estimated profit after:
-
-eBay fees
-
-Postage
-
-Your buy price
-
-Search System
-
-Quickly find saved cards by:
-
-card code
-
-card name
-
-notes
-
-How It Works
+## How It Works
 
 Cards are stored in:
 
+```json
 cards.json
+```
 
 Each card entry contains:
-
 code
 name
 image_url
 ebay_link
 buy_price
 notes
-
-The card code acts as a unique ID used for commands.
+The card code acts as the unique ID used for commands.
 
 Example card codes:
-
 charizard199
 pikachupromo1
 snorlax141
-Bot Commands
 
-All commands use the prefix:
+Commands
 
+All commands use this prefix:
+```
 ?
-Add a Card
+```
+
+Add a card
+```
 ?addcard code | Card Name | Image URL | eBay Sold Link | Buy Price | Notes
+```
+Example: 
+```
+?addcard charizard199 | Charizard ex 199/165 | https://image.jpg | https://www.ebay.co.uk/sch/i.html?_nkw=charizard+199&LH_Sold=1&LH_Complete=1 |_sop=13 | 12.50 | Mint pull
+```
+Only the first 4 parts are required.
 
-Example:
-
-?addcard charizard199 | Charizard ex 199/165 | https://image.jpg | https://www.ebay.co.uk/sch/i.html?_nkw=charizard+199&LH_Sold=1&LH_Complete=1 | 12.50 | Mint pull
-
-Only the first 4 fields are required.
-
-View a Card
+View a saved card
+```
 ?comp code
-
+```
 Example:
 
 ?comp charizard199
-
-Shows:
-
-card image
-
-buy price
-
-notes
-
-clickable title that opens eBay sold listings
-
-Update Buy Price
+Update buy price
+```
 ?setprice code | price
+```
 
 Example:
 
 ?setprice charizard199 | 15
-Update Notes
+Update notes
+```
 ?setnotes code | notes
+```
 
 Example:
 
 ?setnotes charizard199 | PSA candidate
-Edit Card Details
+Edit a card
+```
 ?editcard code | Card Name | Image URL | eBay Sold Link | Buy Price | Notes
+```
 
 Example:
 
 ?editcard charizard199 | Charizard ex 199/165 | https://image.jpg | https://ebaylink | 12 | Clean copy
-Rename Card Code
+Rename a card code
+```
 ?renamecard oldcode | newcode
+```
 
 Example:
 
-?renamecard charizard199 | charizardPaldean199
-Delete Card
+?renamecard charizard199 | charizardpaldean199
+Delete a card
+```
 ?delcard code
+```
 
 Example:
-
+```
 ?delcard charizard199
-List All Saved Cards
+```
+List all saved cards
+```
 ?listcards
-
-Shows every saved card with buy price.
-
-Search Cards
+```
+Search saved cards
+```
 ?findcard keyword
-
-Searches:
-
-card code
-
-name
-
-notes
+```
 
 Example:
-
+```
 ?findcard charizard
-Profit Calculator
+```
 
-Estimate profit after fees and postage.
+Profit calculator
 
-Basic Version
+Basic version:
+
 ?profit code | saleprice
 
 Example:
 
 ?profit charizard199 | 24.99
 
-Uses default values:
+Custom version:
 
-eBay Fee: 12.8%
-Postage: £2.70
-Custom Version
 ?profit code | saleprice | feepercent | postage
 
 Example:
 
 ?profit charizard199 | 24.99 | 12.8 | 2.70
-Ping Test
+Ping test
 ?ping
-
-Returns bot latency.
-
-Help Menu
+Help menu
 ?helpcomp
+Default Profit Settings
 
-Displays all available commands.
+The bot currently uses these defaults for the quick profit command:
 
-Hosting
-
-The bot can run:
-
-locally on your PC
-
-on cloud services such as Render
-
-Recommended hosting:
-
-Render (Free tier)
-
-This allows the bot to run 24/7 even when your PC is off.
-
+eBay fee: 12.8%
+Postage: £2.70
 Requirements
 
-Python 3.10+
+Python 3.10+ recommended.
 
-Required packages:
-
-discord.py
-python-dotenv
-
-Install with:
+Install required packages:
 
 pip install discord.py python-dotenv
-Environment Variables
 
-Create a .env file:
+Or from a requirements file:
+
+pip install -r requirements.txt
+Environment Variable
+
+Create a .env file locally with:
 
 DISCORD_TOKEN=your_bot_token_here
-Start the Bot
+
+If hosting on Render, add this as an environment variable instead of uploading .env.
+
+Run Locally
 python bot.py
+Hosting
+
+This bot can run:
+
+Locally on your PC
+
+On Render for 24/7 uptime
+
+On other Python-friendly cloud hosts
+
+Recommended for personal use:
+
+Render (Free tier)
+Example Use Case
+
+Save a card:
+
+?addcard charizard199 | Charizard ex 199/165 | https://image.jpg | https://www.ebay.co.uk/sch/i.html?_nkw=charizard+199&LH_Sold=1&LH_Complete=1&_sop=13 | 12.50 | Mint pull
+
+Check the card:
+
+?comp charizard199
+
+Update the price later:
+
+?setprice charizard199 | 14.99
+
+Check profit:
+
+?profit charizard199 | 24.99
+File Structure
+comp-bot/
+├── bot.py
+├── cards.json
+├── requirements.txt
+├── README.md
+└── .env
 Future Ideas
 
 Possible upgrades:
 
-automatic eBay sold scraping
+Collection value command
 
-price averaging
+ROI percentage command
 
-PSA grading tracker
+Export to CSV
 
-portfolio value tracking
+Separate sold / raw / graded tracking
 
-profit history
+Category tags
 
-sales tracking
+Admin-only command restrictions
+
+Sales history log
+
+
+
