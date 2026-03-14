@@ -23,20 +23,20 @@ cards.json
 ```
 
 Each card entry contains:
-code
-name
-image_url
-ebay_link
-buy_price
-notes
+* code
+* name
+* image_url
+* ebay_link
+* buy_price
+* notes
 The card code acts as the unique ID used for commands.
 
 Example card codes:
-charizard199
-pikachupromo1
-snorlax141
+* charizard199
+* pikachupromo1
+* snorlax141
 
-Commands
+## Commands
 
 All commands use this prefix:
 ```
@@ -122,7 +122,8 @@ Example:
 ?findcard charizard
 ```
 
-Profit calculator
+## Profit calculator
+
 Basic version:
 ```
 ?profit code | saleprice
@@ -151,17 +152,17 @@ Help menu
 ?helpcomp
 ```
 
-Default Profit Settings
+## Default Profit Settings
 
 The bot currently uses these defaults for the quick profit command:
 
-eBay fee: 12.8%
-Postage: £2.70
-Requirements
+* eBay fee: 12.8%
+* Postage: £2.70
+* Requirements
 
 Python 3.10+ recommended.
 
-Install required packages:
+## Install required packages:
 ```
 pip install discord.py python-dotenv
 ```
@@ -181,15 +182,15 @@ python bot.py
 Hosting
 ```
 
-This bot can run:
+## This bot can run:
 
-Locally on your PC
+* Locally on your PC
 
-On Render for 24/7 uptime
+* On Render for 24/7 uptime
 
-On other Python-friendly cloud hosts
+* On other Python-friendly cloud hosts
 
-Recommended for personal use:
+## Recommended for personal use:
 
 Render (Free tier)
 Example Use Case
