@@ -51,7 +51,7 @@ Search System
 
 Quickly find saved cards by:
 
-code
+card code
 
 card name
 
@@ -74,10 +74,10 @@ notes
 
 The card code acts as a unique ID used for commands.
 
-Example:
+Example card codes:
 
 charizard199
-pikachuPromo1
+pikachupromo1
 snorlax141
 Bot Commands
 
@@ -238,7 +238,3 @@ portfolio value tracking
 profit history
 
 sales tracking
-
-Author
-
-Created for Pokémon card collectors and sellers who want fast comp checking directly inside Discord.
