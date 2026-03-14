@@ -1,0 +1,31 @@
+{
+    "pika247": {
+        "name": "Pikachu EX 247/191",
+        "image_url": "https://avalongaming.com.co/wp-content/uploads/Pikachu_ex_Chispas_Fulgurantes_247_TCG.png",
+        "ebay_link": "https://www.ebay.co.uk/sch/i.html?_nkw=pikachu+247%2F191+ace+9&_sacat=0&_from=R40&rt=nc&LH_Sold=1"
+    },
+    "pika219": {
+        "name": "Pikachu EX 219/191",
+        "image_url": "https://m.media-amazon.com/images/I/61JFh4265iL.jpg",
+        "ebay_link": "https://www.ebay.co.uk/sch/i.html?_nkw=pikachu+219%2F191+ace+9&_sacat=0&_from=R40&_trksid=p2334524.m570.l1313&rt=nc&_odkw=pikachu+247%2F191+ace+9&_osacat=0&LH_Sold=1",
+        "buy_price": "£38.75"
+    },
+    "041/187": {
+        "name": "Glaceon EX 041/187 Jap ACE 10",
+        "image_url": "https://storage.googleapis.com/images.pricecharting.com/oxji3wepjeyvtewd/240.jpg",
+        "ebay_link": "https://www.ebay.co.uk/sch/i.html?_nkw=Glaceon+EX+041%2F187+Jap+ACE+10&_sacat=0&_from=R40&_trksid=p2334524.m570.l1313&_odkw=pikachu+219%2F191+ace+9&_osacat=0&LH_Sold=1",
+        "buy_price": "£13.87"
+    },
+    "110/180": {
+        "name": "Lumiose City Jap ACE 10",
+        "image_url": "https://storage.googleapis.com/images.pricecharting.com/mdjphysv6tpgepoy/1600.jpg",
+        "ebay_link": "https://www.ebay.co.uk/sch/i.html?_nkw=110%2F180+%7C+Lumiose+City+nihl+zero+ace+10&_sacat=0&_from=R40&_trksid=m570.l1313&_odkw=Glaceon+EX+041%2F187+Jap+ACE+10&_osacat=0&LH_Sold=1",
+        "buy_price": "£18.26"
+    },
+    "126/193": {
+        "name": "Mega Dragonite EX 126/193 ACE 10",
+        "image_url": "https://storage.googleapis.com/images.pricecharting.com/pj7dv3ueqjml7vaj/1600.jpg",
+        "ebay_link": "https://www.ebay.co.uk/sch/i.html?_nkw=Mega+Dragonite+EX+126%2F193+ace+10&_sacat=0&_from=R40&_trksid=p2334524.m570.l1313&_odkw=110%2F180+%7C+Lumiose+City+nihl+zero+ace+10&_osacat=0&LH_Sold=1",
+        "buy_price": "£17.78"
+    }
+}
